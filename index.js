@@ -9,8 +9,10 @@ module.exports = class PowerStatus extends Plugin {
         if (!this.settings.get('statuses'))
           this.settings.set('statuses', '');
         if (!this.settings.get('delay'))
-          this.settings.set('delay', 2.5);
+          this.settings.set('delay', 120);
         if (this.settings.get('enable') == null)
+          this.settings.set('enable', true);
+        if (this.settings.get('randomStatus') == null)
           this.settings.set('enable', true);
         
         powercord.api.settings.registerSettings('powerstatus', {
@@ -34,8 +36,16 @@ module.exports = class PowerStatus extends Plugin {
         
         var delay = parseInt(this.settings.get('delay')) * 1000;
         delay = delay < 1 ? 1 : delay;
-        var i = Math.round((new Date()).getTime() / delay) % statuses.length;
-        
+
+        var i = 0;
+        if(this.settings.get('randomStatus'))
+            // Math.floor(Math.random() * (max - min) + min);
+            i = Math.floor(Math.random() * statuses.length);
+        else
+            i = Math.round((new Date()).getTime() / delay) % statuses.length;
+        if (i >= statuses.length)
+            i = statuses.length - 1;
+
         if(this.settings.get('enable'))
             await this.setStatus(statuses[i]);
         setTimeout(() => {
