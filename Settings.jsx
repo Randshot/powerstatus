@@ -46,11 +46,25 @@ module.exports = class Settings extends React.Component {
                 Update Delay (Slider)
               </SliderInput>
               <TextArea
+                value={this.props.getSetting('statusPrefixes')}
+                onChange={val => this.props.updateSetting('statusPrefixes', val.toString())}
+                rows={8}
+              >
+                Status Prefixes (Newline Separated)
+              </TextArea>
+              <TextArea
                 value={this.props.getSetting('statuses')}
                 onChange={val => this.props.updateSetting('statuses', val.toString())}
                 rows={8}
               >
                 Statuses (Newline Separated)
+              </TextArea>
+              <TextArea
+                value={this.props.getSetting('statusSuffixes')}
+                onChange={val => this.props.updateSetting('statusSuffixes', val.toString())}
+                rows={8}
+              >
+                Status Suffixes (Newline Separated)
               </TextArea>
               <Card style={{"padding":"18px"}}>
                 <FormText>
